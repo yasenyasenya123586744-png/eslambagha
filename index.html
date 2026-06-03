@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Calc in World - ESLAM BAGHA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #4ade80;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* حاوية الأنميشن في الخلفية */
+        .bg-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(56, 189, 248, 0.15);
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            animation: floatGlow 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(-50px, -50px); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* كارت الآلة الحاسبة الرئيسي */
+        .calc-container {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            z-index: 1;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* اسم العميل فوق */
+        .brand-name {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        /* شاشات الخطوات */
+        .step-panel {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .step-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+
+        .input-control {
+            width: 100%;
+            padding: 14px 45px 14px 15px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+        }
+
+        /* أزرار العمليات الحسابية */
+        .operator-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .op-btn {
+            background: #334155;
+            border: none;
+            color: white;
+            padding: 15px 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .op-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.3);
+        }
+
+        .op-btn.selected {
+            background: var(--accent-color);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+        }
+
+        /* الأزرار العامة */
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 12px;
+            color: #0f172a;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* شاشة النتيجة النهائية */
+        .result-screen {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .welcome-msg {
+            font-size: 1.2rem;
+            color: var(--success);
+            margin-bottom: 15px;
+        }
+
+        .equation-box {
+            background: rgba(15, 23, 42, 0.8);
+            padding: 20px;
+            border-radius: 16px;
+            font-size: 1.6rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .good-luck {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .restart-btn {
+            background: transparent;
+            border: 2px solid #334155;
+            color: var(--text-main);
+            margin-top: 15px;
+        }
+
+        .restart-btn:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <div class="calc-container">
+        <div class="brand-name">ESLAM BAGHA</div>
+        <div class="subtitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Best Calc In World</div>
+
+        <div class="step-panel active" id="step-name">
+            <div class="input-group">
+                <label>مرحباً بك! ما هو اسمك؟</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="username" class="input-control" placeholder="اكتب اسمك هنا...">
+                </div>
+            </div>
+            <button class="btn-primary" onclick="goToCalculations()">
+                يلا بينا نسجل <i class="fa-solid fa-arrow-left"></i>
+            </button>
+        </div>
+
+        <div class="step-panel" id="step-calc">
+            <div class="input-group">
+                <label>الرقم الأول (First Number)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-hashtag"></i>
+                    <input type="number" id="numb1" class="input-control" placeholder="0">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>الرقم الثاني (Second Number)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-hashtag"></i>
+                    <input type="number" id="numb2" class="input-control" placeholder="0">
+                </div>
+            </div>
+
+            <label style="color: var(--text-muted); font-size: 0.95rem;">اختر العملية الحسابية (Mark)</label>
+            <div class="operator-grid">
+                <button class="op-btn" onclick="selectOperator('+')">+</button>
+                <button class="op-btn" onclick="selectOperator('-')">-</button>
+                <button class="op-btn" onclick="selectOperator('*')">*</button>
+                <button class="op-btn" onclick="selectOperator('/')">/</button>
+                <button class="op-btn" onclick="selectOperator('%')">%</button>
+            </div>
+
+            <button class="btn-primary" onclick="calculateResult()">
+                احسب النتيجة <i class="fa-solid fa-calculator"></i>
+            </button>
+        </div>
+
+        <div class="step-panel" id="step-result">
+            <div class="result-screen">
+                <div class="welcome-msg" id="welcome-back"></div>
+                <div class="equation-box" id="output-equation">0 + 0 = 0</div>
+                <div class="good-luck" id="good-luck-msg"></div>
+                
+                <button class="btn-primary restart-btn" onclick="restartCalc()">
+                    إحسب مرة تانية <i class="fa-solid fa-rotate-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedOperator = '';
+        let userName = '';
+
+        // الانتقال للخطوة الثانية بعد كwrite الاسم
+        function goToCalculations() {
+            const nameInput = document.getElementById('username').value.trim();
+            userName = nameInput ? nameInput : "صديقي";
+            
+            switchStep('step-name', 'step-calc');
+        }
+
+        // تحديد العملية الحسابية الحالية وتغيير شكل الزرار
+        function selectOperator(op) {
+            selectedOperator = op;
+            const buttons = document.querySelectorAll('.op-btn');
+            buttons.forEach(btn => {
+                if(btn.innerText === op) {
+                    btn.classList.add('selected');
+                } else {
+                    btn.classList.remove('selected');
+                }
+            });
+        }
+
+        // الحساب الفعلي بناءً على شروط الـ if اللي أنت محددها
+        function calculateResult() {
+            const numb1 = parseFloat(document.getElementById('numb1').value);
+            const numb2 = parseFloat(document.getElementById('numb2').value);
+            const bb = selectedOperator;
+
+            if (isNaN(numb1) || isNaN(numb2)) {
+                alert("من فضلك أدخل الأرقام الأول والتاني!");
+                return;
+            }
+            if (!bb) {
+                alert("من فضلك اختر علامة الحساب (+, -, *, /, %)");
+                return;
+            }
+
+            let equationText = "";
+
+            // تطبيق شروط الكود بتاعك بالظبط
+            if (bb == "+") {
+                let result1 = numb1 + numb2;
+                equationText = `${numb1} + ${numb2} = ${result1}`;
+            }
+            if (bb == "-") {
+                let result2 = numb1 - numb2;
+                equationText = `${numb1} - ${numb2} = ${result2}`;
+            }
+            if (bb == "*") {
+                let result3 = numb1 * numb2;
+                equationText = `${numb1} * ${numb2} = ${result3}`;
+            }
+            if (bb == "/") {
+                if(numb2 === 0) {
+                    equationText = "لا يمكن القسمة على صفر!";
+                } else {
+                    let result4 = numb1 / numb2; // تصحيح المتغير هنا
+                    equationText = `${numb1} / ${numb2} = ${result4}`;
+                }
+            }
+            if (bb == "%") {
+                let result5 = numb1 % numb2;
+                equationText = `${numb1} % ${numb2} = ${result5}`;
+            }
+
+            // طباعة البيانات في شاشة النتيجة النهائية
+            document.getElementById('welcome-back').innerText = `تمام يا ${userName}، ودي نتيجتك:`;
+            document.getElementById('output-equation').innerText = equationText;
+            document.getElementById('good-luck-msg').innerText = `Good luck ${userName}`;
+
+            switchStep('step-calc', 'step-result');
+        }
+
+        // تنقل سلس بين شاشات الـ Wizard
+        function switchStep(fromId, toId) {
+            document.getElementById(fromId).classList.remove('active');
+            document.getElementById(toId).classList.add('active');
+        }
+
+        // إعادة تصفير الآلة
+        function restartCalc() {
+            document.getElementById('numb1').value = '';
+            document.getElementById('numb2').value = '';
+            selectedOperator = '';
+            const buttons = document.querySelectorAll('.op-btn');
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            
+            switchStep('step-result', 'step-calc');
+        }
+    </script>
+</body>
+              </html>
+              
