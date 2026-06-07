@@ -3,407 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Best Calc in World - ESLAM BAGHA</title>
+    <title>Yasen Cafe | طلبك بلمسة</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent-color: #38bdf8;
-            --accent-hover: #0ea5e9;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --success: #4ade80;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-        }
-
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            overflow-x: hidden;
+            font-family: 'Tajawal', sans-serif;
+            background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 100%);
         }
-
-        /* حاوية الأنميشن في الخلفية */
-        .bg-glow {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: rgba(56, 189, 248, 0.15);
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: 0;
-            animation: floatGlow 8s ease-in-out infinite alternate;
-        }
-
-        @keyframes floatGlow {
-            0% { transform: translate(-50px, -50px); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        /* كارت الآلة الحاسبة الرئيسي */
-        .calc-container {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 24px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            z-index: 1;
-            transform: translateY(20px);
-            opacity: 0;
-            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes fadeInUp {
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* اسم العميل فوق */
-        .brand-name {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: var(--accent-color);
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
-        }
-
-        .subtitle {
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 25px;
-        }
-
-        /* شاشات الخطوات */
-        .step-panel {
+        .step-card {
             display: none;
-            animation: fadeIn 0.4s ease;
+            animation: fadeIn 0.5s ease-in-out forwards;
         }
-
-        .step-panel.active {
+        .step-card.active {
             display: block;
         }
-
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-            color: var(--text-muted);
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-wrapper i {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--accent-color);
-            font-size: 1.1rem;
-        }
-
-        .input-control {
-            width: 100%;
-            padding: 14px 45px 14px 15px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 2px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .input-control:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
-        }
-
-        /* أزرار العمليات الحسابية */
-        .operator-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .op-btn {
-            background: #334155;
-            border: none;
-            color: white;
-            padding: 15px 0;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .op-btn:hover {
-            background: var(--accent-color);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.3);
-        }
-
-        .op-btn.selected {
-            background: var(--accent-color);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
-        }
-
-        /* الأزرار العامة */
-        .btn-primary {
-            width: 100%;
-            padding: 14px;
-            background: var(--accent-color);
-            border: none;
-            border-radius: 12px;
-            color: #0f172a;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-primary:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-        }
-
-        /* شاشة النتيجة النهائية */
-        .result-screen {
-            text-align: center;
-            padding: 10px 0;
-        }
-
-        .welcome-msg {
-            font-size: 1.2rem;
-            color: var(--success);
-            margin-bottom: 15px;
-        }
-
-        .equation-box {
-            background: rgba(15, 23, 42, 0.8);
-            padding: 20px;
-            border-radius: 16px;
-            font-size: 1.6rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .good-luck {
-            color: var(--text-muted);
-            font-style: italic;
-        }
-
-        .restart-btn {
-            background: transparent;
-            border: 2px solid #334155;
-            color: var(--text-main);
-            margin-top: 15px;
-        }
-
-        .restart-btn:hover {
-            background: rgba(255,255,255,0.05);
-            border-color: var(--text-muted);
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body>
+<body class="text-slate-100 min-h-screen flex items-center justify-center p-4">
 
-    <div class="bg-glow"></div>
+    <div class="w-full max-w-md bg-slate-900/80 backdrop-blur-xl border border-indigo-500/30 rounded-3xl p-6 shadow-2xl shadow-indigo-950/50 relative overflow-hidden">
+        
+        <div class="absolute -top-10 -left-10 w-40 h-40 bg-indigo-500/10 blur-3xl rounded-full"></div>
+        <div class="absolute -top-10 -right-10 w-40 h-40 bg-purple-500/10 blur-3xl rounded-full"></div>
 
-    <div class="calc-container">
-        <div class="brand-name">ESLAM BAGHA</div>
-        <div class="subtitle"><i class="fa-solid fa-wand-magic-sparkles"></i> Best Calc In World</div>
-
-        <div class="step-panel active" id="step-name">
-            <div class="input-group">
-                <label>مرحباً بك! ما هو اسمك؟</label>
-                <div class="input-wrapper">
-                    <i class="fa-solid fa-user"></i>
-                    <input type="text" id="username" class="input-control" placeholder="اكتب اسمك هنا...">
-                </div>
-            </div>
-            <button class="btn-primary" onclick="goToCalculations()">
-                يلا بينا نسجل <i class="fa-solid fa-arrow-left"></i>
-            </button>
+        <div class="text-center mb-8 relative z-10">
+            <h1 class="text-2xl font-bold tracking-wide bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                <i class="fa-solid fa-mug-hot text-indigo-400 ml-2 animate-bounce"></i> كافيه المستقبل
+            </h1>
+            <p class="text-xs text-slate-400 mt-1">اختر مشروبك المفضل وسنقوم بتحضيره فوراً</p>
         </div>
 
-        <div class="step-panel" id="step-calc">
-            <div class="input-group">
-                <label>الرقم الأول (First Number)</label>
-                <div class="input-wrapper">
-                    <i class="fa-solid fa-hashtag"></i>
-                    <input type="number" id="numb1" class="input-control" placeholder="0">
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label>الرقم الثاني (Second Number)</label>
-                <div class="input-wrapper">
-                    <i class="fa-solid fa-hashtag"></i>
-                    <input type="number" id="numb2" class="input-control" placeholder="0">
-                </div>
-            </div>
-
-            <label style="color: var(--text-muted); font-size: 0.95rem;">اختر العملية الحسابية (Mark)</label>
-            <div class="operator-grid">
-                <button class="op-btn" onclick="selectOperator('+')">+</button>
-                <button class="op-btn" onclick="selectOperator('-')">-</button>
-                <button class="op-btn" onclick="selectOperator('*')">*</button>
-                <button class="op-btn" onclick="selectOperator('/')">/</button>
-                <button class="op-btn" onclick="selectOperator('%')">%</button>
-            </div>
-
-            <button class="btn-primary" onclick="calculateResult()">
-                احسب النتيجة <i class="fa-solid fa-calculator"></i>
-            </button>
-        </div>
-
-        <div class="step-panel" id="step-result">
-            <div class="result-screen">
-                <div class="welcome-msg" id="welcome-back"></div>
-                <div class="equation-box" id="output-equation">0 + 0 = 0</div>
-                <div class="good-luck" id="good-luck-msg"></div>
-                
-                <button class="btn-primary restart-btn" onclick="restartCalc()">
-                    إحسب مرة تانية <i class="fa-solid fa-rotate-right"></i>
+        <div id="step-1" class="step-card active relative z-10">
+            <h2 class="text-lg font-medium text-center mb-6">ما هو مشروبك المفضل؟</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="selectDrink('coffee')" class="flex flex-col items-center justify-center p-6 bg-slate-800/50 border border-slate-700 rounded-2xl hover:border-indigo-500 hover:bg-slate-800 transition-all duration-300 group cursor-pointer">
+                    <div class="w-16 h-16 rounded-full bg-amber-500/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-coffee text-2xl text-amber-500"></i>
+                    </div>
+                    <span class="font-bold text-slate-200">قهوة</span>
+                </button>
+                <button onclick="selectDrink('tea')" class="flex flex-col items-center justify-center p-6 bg-slate-800/50 border border-slate-700 rounded-2xl hover:border-emerald-500 hover:bg-slate-800 transition-all duration-300 group cursor-pointer">
+                    <div class="w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-leaf text-2xl text-emerald-500"></i>
+                    </div>
+                    <span class="font-bold text-slate-200">شاي</span>
                 </button>
             </div>
         </div>
+
+        <div id="step-2" class="step-card relative z-10">
+            <button onclick="goBack(1)" class="text-xs text-slate-400 hover:text-indigo-400 mb-4 cursor-pointer">
+                <i class="fa-solid fa-arrow-right ml-1"></i> العودة للرئيسية
+            </button>
+            
+            <h2 id="step-2-title" class="text-lg font-medium text-center mb-6">حدد تفاصيل المشروب</h2>
+            
+            <div id="coffee-options" class="hidden grid grid-cols-1 gap-3">
+                <button onclick="selectSubtype('قهوة سادة (Black Coffee)')" class="flex items-center p-4 bg-slate-800/50 border border-slate-700 rounded-xl hover:border-indigo-500 transition-all cursor-pointer">
+                    <i class="fa-solid fa-circle text-stone-900 text-xl ml-4"></i>
+                    <div class="text-right">
+                        <p class="font-bold">قهوة سادة</p>
+                        <p class="text-xs text-slate-400">Black Coffee - طعم قوي وأصيل</p>
+                    </div>
+                </button>
+                <button onclick="selectSubtype('قهوة بالحليب (Coffee with Milk)')" class="flex items-center p-4 bg-slate-800/50 border border-slate-700 rounded-xl hover:border-indigo-500 transition-all cursor-pointer">
+                    <i class="fa-solid fa-cow text-amber-200 text-xl ml-4"></i>
+                    <div class="text-right">
+                        <p class="font-bold">قهوة بالحليب</p>
+                        <p class="text-xs text-slate-400">Coffee with Milk - مزيج ناعم وغني</p>
+                    </div>
+                </button>
+            </div>
+
+            <div id="tea-options" class="hidden grid grid-cols-1 gap-3">
+                <button onclick="selectSubtype('شاي أخضر (Green Tea)')" class="flex items-center p-4 bg-slate-800/50 border border-slate-700 rounded-xl hover:border-emerald-500 transition-all cursor-pointer">
+                    <i class="fa-solid fa-seedling text-emerald-400 text-xl ml-4"></i>
+                    <div class="text-right">
+                        <p class="font-bold">شاي أخضر</p>
+                        <p class="text-xs text-slate-400">Green Tea - صحي ومنعش</p>
+                    </div>
+                </button>
+                <button onclick="selectSubtype('شاي أحمر (Red Tea)')" class="flex items-center p-4 bg-slate-800/50 border border-slate-700 rounded-xl hover:border-red-500 transition-all cursor-pointer">
+                    <i class="fa-solid fa-teapot text-red-400 text-xl ml-4"></i>
+                    <div class="text-right">
+                        <p class="font-bold">شاي أحمر</p>
+                        <p class="text-xs text-slate-400">Red Tea - كلاسيكي ومظبوط</p>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div id="step-3" class="step-card relative z-10">
+            <button onclick="goBack(2)" class="text-xs text-slate-400 hover:text-indigo-400 mb-4 cursor-pointer">
+                <i class="fa-solid fa-arrow-right ml-1"></i> تعديل النوع
+            </button>
+
+            <h2 class="text-lg font-medium text-center mb-4">كم عدد الأكواب التي تريدها؟</h2>
+            
+            <div class="bg-slate-800/40 border border-slate-700/60 rounded-2xl p-4 mb-6 text-center">
+                <p class="text-xs text-slate-400 mb-1">المشروب المختار:</p>
+                <p id="summary-text" class="font-bold text-indigo-400 text-base"></p>
+            </div>
+
+            <div class="flex items-center justify-center gap-6 mb-8">
+                <button onclick="changeQuantity(-1)" class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center hover:bg-slate-700 text-xl font-bold cursor-pointer transition-colors">-</button>
+                <span id="quantity-display" class="text-3xl font-bold w-12 text-center">1</span>
+                <button onclick="changeQuantity(1)" class="w-12 h-12 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center hover:bg-slate-700 text-xl font-bold cursor-pointer transition-colors">+</button>
+            </div>
+
+            <button onclick="sendOrder()" class="w-full bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/50 cursor-pointer transition-all duration-300 transform hover:-translate-y-0.5">
+                <i class="fa-brands fa-whatsapp text-xl"></i>
+                إرسال الطلب عبر الواتساب
+            </button>
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-slate-800/60 text-center text-[10px] text-slate-500">
+            جيع الحقوق محفوظة © ٢٠٢٦ | Yasen Cafe
+        </div>
+
     </div>
 
     <script>
-        let selectedOperator = '';
-        let userName = '';
+        // كائن لتخزين بيانات الطلب الحالي
+        let orderData = {
+            mainDrink: '',
+            subType: '',
+            quantity: 1
+        };
 
-        // الانتقال للخطوة الثانية بعد كwrite الاسم
-        function goToCalculations() {
-            const nameInput = document.getElementById('username').value.trim();
-            userName = nameInput ? nameInput : "صديقي";
+        const whatsappNumber = "201018418304";
+
+        // الانتقال بين الصفحات الافتراضية
+        function navigateToStep(stepNumber) {
+            document.querySelectorAll('.step-card').forEach(card => card.classList.remove('active'));
+            document.getElementById(`step-${stepNumber}`).classList.add('active');
+        }
+
+        // الرجوع للخلف
+        function goBack(stepNumber) {
+            if(stepNumber === 2) {
+                // إعادة تصفير الحقول الفرعية عند الرجوع
+                document.getElementById('coffee-options').classList.add('hidden');
+                document.getElementById('tea-options').classList.add('hidden');
+            }
+            navigateToStep(stepNumber);
+        }
+
+        // 1. اختيار المشروب الرئيسي (قهوة / شاي)
+        function selectDrink(drink) {
+            orderData.mainDrink = drink;
             
-            switchStep('step-name', 'step-calc');
-        }
-
-        // تحديد العملية الحسابية الحالية وتغيير شكل الزرار
-        function selectOperator(op) {
-            selectedOperator = op;
-            const buttons = document.querySelectorAll('.op-btn');
-            buttons.forEach(btn => {
-                if(btn.innerText === op) {
-                    btn.classList.add('selected');
-                } else {
-                    btn.classList.remove('selected');
-                }
-            });
-        }
-
-        // الحساب الفعلي بناءً على شروط الـ if اللي أنت محددها
-        function calculateResult() {
-            const numb1 = parseFloat(document.getElementById('numb1').value);
-            const numb2 = parseFloat(document.getElementById('numb2').value);
-            const bb = selectedOperator;
-
-            if (isNaN(numb1) || isNaN(numb2)) {
-                alert("من فضلك أدخل الأرقام الأول والتاني!");
-                return;
-            }
-            if (!bb) {
-                alert("من فضلك اختر علامة الحساب (+, -, *, /, %)");
-                return;
-            }
-
-            let equationText = "";
-
-            // تطبيق شروط الكود بتاعك بالظبط
-            if (bb == "+") {
-                let result1 = numb1 + numb2;
-                equationText = `${numb1} + ${numb2} = ${result1}`;
-            }
-            if (bb == "-") {
-                let result2 = numb1 - numb2;
-                equationText = `${numb1} - ${numb2} = ${result2}`;
-            }
-            if (bb == "*") {
-                let result3 = numb1 * numb2;
-                equationText = `${numb1} * ${numb2} = ${result3}`;
-            }
-            if (bb == "/") {
-                if(numb2 === 0) {
-                    equationText = "لا يمكن القسمة على صفر!";
-                } else {
-                    let result4 = numb1 / numb2; // تصحيح المتغير هنا
-                    equationText = `${numb1} / ${numb2} = ${result4}`;
-                }
-            }
-            if (bb == "%") {
-                let result5 = numb1 % numb2;
-                equationText = `${numb1} % ${numb2} = ${result5}`;
-            }
-
-            // طباعة البيانات في شاشة النتيجة النهائية
-            document.getElementById('welcome-back').innerText = `تمام يا ${userName}، ودي نتيجتك:`;
-            document.getElementById('output-equation').innerText = equationText;
-            document.getElementById('good-luck-msg').innerText = `Good luck ${userName}`;
-
-            switchStep('step-calc', 'step-result');
-        }
-
-        // تنقل سلس بين شاشات الـ Wizard
-        function switchStep(fromId, toId) {
-            document.getElementById(fromId).classList.remove('active');
-            document.getElementById(toId).classList.add('active');
-        }
-
-        // إعادة تصفير الآلة
-        function restartCalc() {
-            document.getElementById('numb1').value = '';
-            document.getElementById('numb2').value = '';
-            selectedOperator = '';
-            const buttons = document.querySelectorAll('.op-btn');
-            buttons.forEach(btn => btn.classList.remove('selected'));
+            const titleElement = document.getElementById('step-2-title');
             
-            switchStep('step-result', 'step-calc');
+            if (drink === 'coffee') {
+                titleElement.innerText = "كيف تحب القهوة الخاصة بك؟";
+                document.getElementById('coffee-options').classList.remove('hidden');
+            } else if (drink === 'tea') {
+                titleElement.innerText = "أي نوع من الشاي تفضل؟";
+                document.getElementById('tea-options').classList.remove('hidden');
+            }
+            
+            navigateToStep(2);
+        }
+
+        // 2. اختيار النوع الفرعي (مثلاً: شاي أخضر أو قهوة سادة)
+        function selectSubtype(subtype) {
+            orderData.subType = subtype;
+            orderData.quantity = 1; // إعادة تعيين الكمية الافتراضية
+            document.getElementById('quantity-display').innerText = orderData.quantity;
+            document.getElementById('summary-text').innerText = subtype;
+            
+            navigateToStep(3);
+        }
+
+        // 3. تغيير الكمية بالزائد والناقص
+        function changeQuantity(amount) {
+            orderData.quantity += amount;
+            if (orderData.quantity < 1) orderData.quantity = 1; // منع الأعداد السالبة أو الصفر
+            document.getElementById('quantity-display').innerText = orderData.quantity;
+        }
+
+        // 4. تجميع الرسالة وتوجيه المستخدم للواتساب المباشر
+        function sendOrder() {
+            // صياغة رسالة احترافية ومنسقة لإرسالها للرقم المطلوب
+            const message = `*طلب جديد من كافيه المستقبل ☕🚀*%0A%0A` +
+                            `• *المشروب:* ${orderData.subType}%0A` +
+                            `• *الكمية:* ${orderData.quantity} كوب %0A%0A` +
+                            `_تم تجهيز الطلب بنجاح، نراك قريباً! 👋_`;
+
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${message}`;
+            
+            // فتح الرابط في نافذة جديدة لإرسال الطلب
+            window.open(whatsappUrl, '_blank');
         }
     </script>
 </body>
-              </html>
-              
+</html>
